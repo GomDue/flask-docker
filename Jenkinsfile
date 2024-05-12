@@ -1,6 +1,13 @@
 pipeline {
     agent any
     stages {
+        stage('clone') {
+            steps {
+                git branch: 'main', 
+                credentialsId: 'jenkins-github-cred',
+                url: 'https://github.com/GomDue/flask-docker.git/'
+            }
+        }
         stage('build') {
             steps {
                 echo 'building the application...'
