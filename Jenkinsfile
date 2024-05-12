@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    enviroment {
+    environment  {
         IMAGE_NAME = 'test'
         BUILD_ID = 'latest'
         DOCKERHUB_CREDENTIALS = credentials('sue-dockerhub')
