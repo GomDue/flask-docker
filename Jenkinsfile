@@ -3,7 +3,6 @@ pipeline {
     environment  {
         IMAGE_NAME = 'test'
         BUILD_ID = 'latest'
-        DOCKERHUB_CREDENTIALS = credentials('sue-dockerhub')
     }
     stages {
         stage('clone') {
@@ -25,7 +24,7 @@ pipeline {
         }
         stage('login Docker Hub') {
             steps {
-                sh 'echo ${DOCKERHUB_CREDENTIALS_PSW } | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin'
+                sh 'echo ${env.DOCKERHUB_ID} | docker login -u ${env.DOCKERHUB_PASSWORD} --password-stdin'
             }
         }
         stage('deploy') {
