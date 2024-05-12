@@ -1,12 +1,10 @@
 pipeline {
     agent any
-
     enviroment {
         IMAGE_NAME = 'test'
         BUILD_ID = 'latest'
         DOCKERHUB_CREDENTIALS = credentials('sue-dockerhub')
     }
-    
     stages {
         stage('clone') {
             steps {
