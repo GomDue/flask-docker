@@ -14,7 +14,9 @@ pipeline {
         }
         stage('build') {
             steps {
-                bat 'docker build --tag ${IMAGE_NAME}:${BUILD_ID} .'
+                script {
+                    image = docker.build("${IMAGE_NAME}:${BUILD_ID}")
+                }
             }
         }
         stage('test') {
@@ -24,17 +26,19 @@ pipeline {
         }
         stage('login Docker Hub') {
             steps {
-                bat 'echo ${env.DOCKERHUB_ID} | docker login -u ${env.DOCKERHUB_PASSWORD} --password-stdin'
+                sh "echo ${env.DOCKERHUB_ID} | docker login -u ${env.DOCKERHUB_PASSWORD} --password-stdin"
             }
         }
         stage('deploy') {
             steps {
-                bat 'docker push ${IMAGE_NAME}:${BUILD_ID}'
+                script {
+                    image.push("${env.BUILD_NUMBER}")
+                }
             }
         }
         stage('remove docker image') {
             steps {
-                bat 'docker rmi ${IMAGE_NAME}:${BUILD_ID}'
+                sh "docker rmi ${IMAGE_NAME}:${BUILD_ID}"
             }
         }
     }
