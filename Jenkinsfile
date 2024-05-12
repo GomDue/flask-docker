@@ -17,25 +17,25 @@ pipeline {
         }
         stage('build') {
             steps {
-                def dockerImage = docker.build('${IMAGE_NAME}:${BUILD_ID}', './Dockerfile')
+                sh 'docker build --tag ${IMAGE_NAME}:${BUILD_ID} .'
             }
         }
         stage('test') {
             steps {
-                
+                echo 'test...'
             }
         }
-        stage('Login Docker Hub') {
+        stage('login Docker Hub') {
             steps {
                 sh 'echo ${DOCKERHUB_CREDENTIALS_PSW } | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin'
             }
         }
         stage('deploy') {
             steps {
-                dockerImage.push()
+                sh 'docker push ${IMAGE_NAME}:${BUILD_ID}'
             }
         }
-        stage('Remove docker image') {
+        stage('remove docker image') {
             steps {
                 sh 'docker rmi ${IMAGE_NAME}:${BUILD_ID}'
             }
