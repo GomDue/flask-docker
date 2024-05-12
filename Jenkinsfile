@@ -1,5 +1,12 @@
 pipeline {
     agent any
+
+    enviroment {
+        IMAGE_NAME = 'test'
+        BUILD_ID = 'latest'
+        DOCKERHUB_CREDENTIALS = credentials('sue-dockerhub')
+    }
+    
     stages {
         stage('clone') {
             steps {
@@ -10,17 +17,27 @@ pipeline {
         }
         stage('build') {
             steps {
-                echo 'building the application...'
+                def dockerImage = docker.build('${IMAGE_NAME}:${BUILD_ID}', './Dockerfile')
             }
         }
         stage('test') {
             steps {
-                echo 'testing the application...'
+                
+            }
+        }
+        stage('Login Docker Hub') {
+            steps {
+                sh 'echo ${DOCKERHUB_CREDENTIALS_PSW } | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin'
             }
         }
         stage('deploy') {
             steps {
-                echo 'deploying the application...'
+                dockerImage.push()
+            }
+        }
+        stage('Remove docker image') {
+            steps {
+                sh 'docker rmi ${IMAGE_NAME}:${BUILD_ID}'
             }
         }
     }
