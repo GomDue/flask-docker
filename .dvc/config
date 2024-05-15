@@ -1,4 +1,4 @@
 [core]
-    remote = myremote
-['remote "myremote"']
-    url = s3://midas-bucket-1/*
+    remote = model_storage_gdrive
+['remote "model_storage_gdrive"']
+    url = gdrive://1Dsg1rRmK_ea2KbOEACEdlHGzRnebsMuA
