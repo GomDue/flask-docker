@@ -26,7 +26,7 @@ jobs:
     - name: Build container
       run: |
         docker network create data
-        docker build --build-arg GDRIVE_SERVICE_ACCOUNT_JSON=${{ GDRIVE_SERVICE_ACCOUNT_JSON }}\
+        docker build --build-arg GDRIVE_SERVICE_ACCOUNT_JSON=${{ env.GDRIVE_SERVICE_ACCOUNT_JSON }}\
         --tag inference:latest .
   
         docker run -d -p 8000:8000 --network data --name inference_container inference:latest
