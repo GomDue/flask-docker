@@ -21,8 +21,14 @@ jobs:
       with:
         python-version: "3.10"
         
-    - uses: iterative/setup-dvc@v1
-    - run: |
-        dvc push
-    env:
-      GDRIVE_CREDENTIALS_DATA: ${{ secrets.GOOGLE_CLIENT_SECRET_JSON }}
+    - name: Build container
+      run: |
+        docker network create data
+        docker build --tag inference:latest .
+        docker run -d -p 8000:8000 --network data --name inference_container inference:latest
+        
+    # - uses: iterative/setup-dvc@v1
+    # - run: |
+    #     dvc push
+    # env:
+    #   GDRIVE_CREDENTIALS_DATA: ${{ secrets.GOOGLE_CLIENT_SECRET_JSON }}
