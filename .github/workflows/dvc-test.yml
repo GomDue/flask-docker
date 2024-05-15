@@ -12,9 +12,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      GDRIVE_SERVICE_ACCOUNT_JSON: ${{secrets.GDRIVE_SERVICE_ACCOUNT_JSON}}
-
     steps:
     - uses: actions/checkout@v4
     
@@ -27,10 +24,23 @@ jobs:
       run: |
         docker network create data
         docker build \
-        --build-arg GDRIVE_SERVICE_ACCOUNT_JSON="$env.GDRIVE_SERVICE_ACCOUNT_JSON" \
         --tag inference:latest .
         docker run -d -p 8000:8000 --network data --name inference_container inference:latest
-        
+
+    - uses: iterative/setup-dvc@v1
+    - run: |
+          git init
+          dvc init
+          
+          dvc remote add origin gdrive://root
+          dvc remote modify origin --local gdrive_use_service_account true
+
+          dvc pull
+
+      env:
+          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          
+    # --build-arg GDRIVE_SERVICE_ACCOUNT_JSON="$env.GDRIVE_SERVICE_ACCOUNT_JSON" \  
     # - uses: iterative/setup-dvc@v1
     # - run: |
     #     dvc push
