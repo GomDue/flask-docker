@@ -29,8 +29,7 @@ jobs:
 
     - uses: iterative/setup-dvc@v1
     - run: |
-          git init
-          dvc init
+          dvc init --no-scm -f
           
           dvc remote add origin gdrive://root
           dvc remote modify origin --local gdrive_use_service_account true
