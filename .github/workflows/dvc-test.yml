@@ -29,6 +29,7 @@ jobs:
 
     - uses: iterative/setup-dvc@v1
     - run: |
+          git init
           dvc init --no-scm -f
 
           dvc remote add origin gdrive://1Dsg1rRmK_ea2KbOEACEdlHGzRnebsMuA
@@ -36,7 +37,7 @@ jobs:
 
           mkdir dir
           dvc add dir
-          dvc push
+          dvc --verbose push origin
 
       env:
         GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
