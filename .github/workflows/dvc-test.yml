@@ -34,7 +34,9 @@ jobs:
           dvc remote add origin gdrive://1Dsg1rRmK_ea2KbOEACEdlHGzRnebsMuA
           dvc remote modify origin --local gdrive_use_service_account true
 
-          dvc pull data1.txt -v
+          mkdir dir
+          dvc add dir
+          dvc push
 
       env:
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
