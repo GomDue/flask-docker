@@ -23,6 +23,6 @@ jobs:
         
     - uses: iterative/setup-dvc@v1
     - run: |
-        dvc push --remote origin
+        dvc push
       env:
         GDRIVE_CREDENTIALS_DATA: ${{ secrets.GOOGLE_CLIENT_SECRET_JSON }}
