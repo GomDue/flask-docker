@@ -1,0 +1,28 @@
+# Just Test
+name: test
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+        
+    - uses: iterative/setup-dvc@v1
+    - run: |
+        dvc push --remote origin
+      env:
+        GDRIVE_CREDENTIALS_DATA: ${{ secrets.GOOGLE_CLIENT_SECRET_JSON }}
