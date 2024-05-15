@@ -31,8 +31,8 @@ jobs:
     - run: |
           dvc init --no-scm -f
 
-          dvc remote default gdrive://1Dsg1rRmK_ea2KbOEACEdlHGzRnebsMuA
-          dvc remote modify --local gdrive_use_service_account true
+          dvc remote add origin gdrive://1Dsg1rRmK_ea2KbOEACEdlHGzRnebsMuA
+          dvc remote modify origin --local gdrive_use_service_account true
 
           mkdir dir
           dvc add dir
