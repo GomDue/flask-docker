@@ -18,19 +18,25 @@
 #             host=host_addr,
 #             port=host_port)
 
+from dotenv import load_dotenv
+import os
 import dvc.api
+import pickle
+
+load_dotenv()
+
+remote_config = {
+	'access_key_id' : os.environ.get('access_key_id'),
+	'secret_access_key' : os.environ.get('secret_access_key')
+}
+
+print(os.environ.get('access_key_id'))
 
 with dvc.api.open(
-    's3_data_1.txt',  ## 데이터 경로
-    repo='https://github.com/GomDue/flask-docker.git'  ## github repo 경로
-) as fd:
-	data = fd.read()
-	print(data)
+    'kcbert_hatespeech_classifier.pth',
+    repo='https://github.com/GomDue/flask-docker.git',
+	remote_config=remote_config
+) as f:
+	model = pickle.load(f)
 
-# from dvc.api import DVCFileSystem
-
-# fs = DVCFileSystem(config='Test/flask-docker/.dvc/config')
-
-# text = fs.read_text("s3_data_1.txt", encoding="utf-8")
-
-# print(text)
+print(model)
