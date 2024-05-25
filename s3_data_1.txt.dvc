@@ -1,0 +1,5 @@
+outs:
+- md5: e7ab31147f7524fb34e2a32beb896d82
+  size: 9
+  hash: md5
+  path: s3_data_1.txt

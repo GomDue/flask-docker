@@ -1,4 +1,4 @@
 [core]
-    remote = model_storage_gdrive
-['remote "model_storage_gdrive"']
-    url = gdrive://1Dsg1rRmK_ea2KbOEACEdlHGzRnebsMuA
+    remote = myremote
+['remote "myremote"']
+    url = s3://my-airflow-test-bucket-1
